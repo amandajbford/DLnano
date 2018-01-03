@@ -1,0 +1,30 @@
+import urllib.request
+>>> urllib.request.urlretrieve(url, file_name)
+
+
+#from the dog project directory:
+jupyter notebook --ip=0.0.0.0 --no-browser
+
+#to scp over:
+scp -i $name_of_key_file *.jpg ubuntu@54.202.164.70:/home/ubuntu/dog-project/part7
+
+
+step 5:
+
+### TODO: Obtain bottleneck features from another pre-trained CNN.
+bottleneck_features = np.load('bottleneck_features/DogVGG19Data.npz')
+train_VGG19 = bottleneck_features['train']
+valid_VGG19 = bottleneck_features['valid']
+test_VGG19 = bottleneck_features['test']
+
+### TODO: Define your architecture.
+#just copying from step 4 above
+VGG19_model = Sequential() 
+VGG19_model.add(GlobalAveragePooling2D(input_shape=train_VGG19.shape[1:]))
+VGG19_model.add(Dense(133, activation='softmax'))
+
+VGG19_model.summary()
+
+### TODO: Compile the model.
+#just copying from step 4 above
+VGG19_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
